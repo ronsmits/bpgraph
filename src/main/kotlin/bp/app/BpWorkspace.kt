@@ -29,6 +29,10 @@ class BpWorkspace : Workspace() {
         }
     }
 
+    override fun onDelete() {
+        controller.delete(controller.selectedEntry.item)
+    }
+
     fun measuremenEditDialog(item: Measurement, op: (item: Measurement) -> Unit) {
         val entry = MeasurementModel()
         entry.item = item
