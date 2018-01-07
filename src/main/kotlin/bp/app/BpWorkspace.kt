@@ -1,8 +1,9 @@
 package bp.app
 
+import bp.app.controllers.BpController
+import bp.app.model.Measurement
+import bp.app.model.MeasurementModel
 import bp.view.MainView
-import bp.view.Measurement
-import bp.view.MeasurementModel
 import bp.view.datetimepicker
 import tornadofx.*
 

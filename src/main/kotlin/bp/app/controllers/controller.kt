@@ -1,7 +1,7 @@
-package bp.app
+package bp.app.controllers
 
-import bp.view.Measurement
-import bp.view.MeasurementModel
+import bp.app.model.Measurement
+import bp.app.model.MeasurementModel
 import tornadofx.*
 
 class BpController : Controller() {
