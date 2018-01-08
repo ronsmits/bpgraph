@@ -5,7 +5,10 @@ import bp.app.model.Measurement
 import bp.app.model.MeasurementModel
 import bp.view.MainView
 import bp.view.datetimepicker
+import javafx.stage.FileChooser
 import tornadofx.*
+import java.io.FileInputStream
+import javax.json.JsonArray
 
 class BpWorkspace : Workspace() {
     val controller: BpController by inject()
@@ -14,6 +17,13 @@ class BpWorkspace : Workspace() {
     }
 
     init {
+        button("load").action {
+            val result = chooseFile(title = "load json data  file", mode = FileChooserMode.Single, filters = arrayOf(FileChooser.ExtensionFilter("json file", "*.json")))
+            if (result.isNotEmpty()) {
+                val loaded : JsonArray = loadJsonArray(FileInputStream(result[0]))
+                controller.entries.setAll(loaded.toModel())
+            }
+        }
         refreshButton.hide()
         forwardButton.hide()
         backButton.hide()
@@ -21,6 +31,10 @@ class BpWorkspace : Workspace() {
 
     override fun onSave() {
         println("save called")
+        val result = chooseFile(title="save as json data", mode=FileChooserMode.Save, filters = arrayOf(FileChooser.ExtensionFilter("json file", "*.json")))
+
+        val toJSON = controller.entries.toJSON()
+        println(toJSON.toPrettyString())
     }
 
     override fun onCreate() {

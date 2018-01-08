@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
 import tornadofx.*
 import java.time.LocalDateTime
+import javax.json.JsonObject
 
 class Measurement : JsonModel {
     val sysProperty = SimpleIntegerProperty()
@@ -11,9 +12,27 @@ class Measurement : JsonModel {
     val diaProperty = SimpleIntegerProperty()
     var dia by diaProperty
     val pulseProperty = SimpleIntegerProperty()
-    val pulse by pulseProperty
+    var pulse by pulseProperty
     val timeProperty = SimpleObjectProperty<LocalDateTime>(LocalDateTime.now())
     var time by timeProperty
+
+    override fun updateModel(json: JsonObject) {
+        with(json){
+            sys = json.getInt("sys")
+            dia = json.getInt("dia")
+            pulse = json.getInt("pulse")
+            time = json.getDateTime("time")
+        }
+    }
+
+    override fun toJSON(json: JsonBuilder) {
+        with(json){
+            add("sys", sys)
+            add("dia", dia)
+            add("pulse", pulse)
+            add("time", time)
+        }
+    }
 
     override fun toString(): String {
         return "$time - $sys - $dia - $pulse"
